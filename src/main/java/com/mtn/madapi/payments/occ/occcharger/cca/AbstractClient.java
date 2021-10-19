@@ -228,7 +228,8 @@ public abstract class AbstractClient extends TBase implements ClientCCASessionLi
         // { Origin-Host }
         ccrAvps.removeAvp(Avp.ORIGIN_HOST);
         ccrAvps.addAvp(Avp.ORIGIN_HOST, getClientURI(), true);
-
+        ccrAvps.addAvp(Avp.REQUESTED_ACTION, 0);
+        
         // { Origin-Realm }
         // ccrAvps.addAvp(Avp.ORIGIN_REALM, realmName, true);
 
