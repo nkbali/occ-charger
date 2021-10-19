@@ -10,6 +10,7 @@ import org.jdiameter.api.cca.events.JCreditControlAnswer;
 import org.jdiameter.api.cca.events.JCreditControlRequest;
 import org.jdiameter.common.impl.app.cca.CCASessionFactoryImpl;
 import org.jdiameter.common.impl.app.cca.JCreditControlRequestImpl;
+import org.mobicents.diameter.dictionary.AvpDictionary;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -25,10 +26,17 @@ public class CCAClient extends AbstractClient {
     protected boolean receiveTERMINATE;
     protected boolean receiveEVENT;
 
+    private static AvpDictionary dictionary = AvpDictionary.INSTANCE;
+
     /**
      *
      */
     public CCAClient() {
+        try {
+            dictionary.parseDictionary(this.getClass().getClassLoader().getResourceAsStream("dictionary.xml"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // TODO Auto-generated constructor stub
     }
 

@@ -62,6 +62,11 @@
         </dependency>
         <dependency>
             <groupId>org.mobicents.diameter</groupId>
+            <artifactId>restcomm-diameter-mux-jar</artifactId>
+            <version>1.7.1-123</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mobicents.diameter</groupId>
             <artifactId>jdiameter-api</artifactId>
             <version>1.7.1-123</version>
         </dependency>
