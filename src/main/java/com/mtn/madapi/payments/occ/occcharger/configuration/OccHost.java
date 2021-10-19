@@ -3,7 +3,7 @@ package com.mtn.madapi.payments.occ.occcharger.configuration;
 import lombok.Data;
 
 @Data
-public class OCCHost {
+public class OccHost {
 
     private String host;
 

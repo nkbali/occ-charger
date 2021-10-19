@@ -13,7 +13,7 @@ public class ClientManager {
 
     private Map<String, List<CCAClient>> connections = new ConcurrentHashMap<>();
 
-    public void addConnection(String countryCode, CCAClient client){
+    public synchronized void addConnection(String countryCode, CCAClient client){
         if(null == client)
             return;
 
@@ -29,7 +29,7 @@ public class ClientManager {
         connections.put(countryCode, countryConnections);
     }
 
-    public void removeConnection(String countryCode, CCAClient client){
+    public synchronized void removeConnection(String countryCode, CCAClient client){
         List<CCAClient> countryConnections;
         if(connections.containsKey(countryCode)){
             countryConnections = connections.get(countryCode);
@@ -39,14 +39,14 @@ public class ClientManager {
         }
     }
 
-    public void removeALLConnectionsForCountry(String countryCode, CCAClient client){
+    public synchronized void removeALLConnectionsForCountry(String countryCode, CCAClient client){
         List<CCAClient> countryConnections;
         if(connections.containsKey(countryCode)){
             connections.remove(countryCode);
         }
     }
 
-    public CCAClient getConnectionForCountry(String countryCode){
+    public synchronized CCAClient getConnectionForCountry(String countryCode){
         if(connections.containsKey(countryCode)){
             List<CCAClient> countryConnections = connections.get(countryCode);
             if(null == countryConnections || countryConnections.size() == 0)

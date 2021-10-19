@@ -1,11 +1,11 @@
 package com.mtn.madapi.payments.occ.occcharger.helpers;
 
 import com.mtn.madapi.payments.occ.occcharger.cca.CCAClient;
+import com.mtn.madapi.payments.occ.occcharger.cca.CCAXMLConfiguration;
 import com.mtn.madapi.payments.occ.occcharger.client.manager.ClientManager;
-import com.mtn.madapi.payments.occ.occcharger.configuration.OCCHost;
-import com.mtn.madapi.payments.occ.occcharger.configuration.OCCInstance;
+import com.mtn.madapi.payments.occ.occcharger.configuration.OccHost;
+import com.mtn.madapi.payments.occ.occcharger.configuration.OccInstance;
 import com.mtn.madapi.payments.occ.occcharger.configuration.OccProperties;
-import org.jdiameter.client.impl.helpers.XMLConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -27,35 +27,48 @@ public class PostInitialization {
 
     private final Resource resource;
 
+    private final CCAXMLConfiguration xmlConfiguration;
+
+    private final InputStream inputStream;
+
     @Autowired
     public PostInitialization(OccProperties occProperties,
                               ClientManager clientManager,
-                              ResourceLoader resourceLoader){
+                              ResourceLoader resourceLoader) throws Exception {
         this.occProperties = occProperties;
         this.clientManager = clientManager;
         this.resourceLoader = resourceLoader;
-        this.resource = this.resourceLoader.getResource("client-config.xml");
+        this.resource = this.resourceLoader.getResource("classpath:client-config.xml");
+        this.inputStream = this.resource.getInputStream();
+        this.xmlConfiguration = new CCAXMLConfiguration(this.resource.getFile().getAbsolutePath(), null, null);
     }
 
     @EventListener(ContextRefreshedEvent.class)
     public void createConnections(){
-        occProperties.getOCCInstances().forEach(
-                occInstance -> createCountryConnections(occInstance)
-        );
+        if(occProperties.getOccInstances() != null)
+            occProperties.getOccInstances().forEach(
+                    occInstance -> createCountryConnections(occInstance)
+            );
 
     }
 
-    private void createCountryConnections(OCCInstance occInstance){
+    private void createCountryConnections(OccInstance occInstance){
         occInstance.getOccHosts().forEach(occHost -> clientManager.addConnection(occInstance.getCountryCode(), createConnection(occInstance, occHost)));
     }
 
-    private CCAClient createConnection(OCCInstance occInstance, OCCHost occHost){
+    private CCAClient createConnection(OccInstance occInstance, OccHost occHost){
         try {
             CCAClient ccaClient = new CCAClient();
-            InputStream inputStream = this.resource.getInputStream();
-            XMLConfiguration xmlConfiguration = new XMLConfiguration(inputStream);
-            xmlConfiguration.
+//            
+//            InputStream hostInputStream = new InputStream() {
+//                @Override
+//                public int read() throws IOException {
+//                    return 0;
+//                }
+//            };
+//            ccaClient.init(hostInputStream, "MADAPI");
             ccaClient.init(inputStream, "MADAPI");
+            
             return ccaClient;
         }
         catch (Exception ex){

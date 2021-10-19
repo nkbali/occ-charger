@@ -5,9 +5,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OCCInstance {
+public class OccInstance {
     private String countryCode;
-    private List<OCCHost> occHosts;
+    private List<OccHost> occHosts;
     private String port;
     private String originHost;
     private String originRealm;
