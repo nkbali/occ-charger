@@ -6,6 +6,7 @@ import com.mtn.madapi.payments.occ.occcharger.client.manager.ClientManager;
 import com.mtn.madapi.payments.occ.occcharger.configuration.OccHost;
 import com.mtn.madapi.payments.occ.occcharger.configuration.OccInstance;
 import com.mtn.madapi.payments.occ.occcharger.configuration.OccProperties;
+import org.jdiameter.client.impl.helpers.XMLConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -27,7 +28,7 @@ public class PostInitialization {
 
     private final Resource resource;
 
-    private final CCAXMLConfiguration xmlConfiguration;
+    private final XMLConfiguration xmlConfiguration;
 
     private final InputStream inputStream;
 
@@ -40,15 +41,17 @@ public class PostInitialization {
         this.resourceLoader = resourceLoader;
         this.resource = this.resourceLoader.getResource("classpath:client-config.xml");
         this.inputStream = this.resource.getInputStream();
-        this.xmlConfiguration = new CCAXMLConfiguration(this.resource.getFile().getAbsolutePath(), null, null);
+        this.xmlConfiguration = new XMLConfiguration(this.resource.getFile().getAbsolutePath(), null, null);
     }
 
     @EventListener(ContextRefreshedEvent.class)
     public void createConnections(){
+
         if(occProperties.getOccInstances() != null)
-            occProperties.getOccInstances().forEach(
-                    occInstance -> createCountryConnections(occInstance)
-            );
+            createConnection(occProperties.getOccInstances().get(0), occProperties.getOccInstances().get(0).getOccHosts().get(0));
+//            occProperties.getOccInstances().forEach(
+//                    occInstance -> createCountryConnections(occInstance)
+//            );
 
     }
 
