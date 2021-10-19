@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.jdiameter.api.*;
 import org.jdiameter.api.validation.ValidatorLevel;
 import org.jdiameter.client.impl.StackImpl;
-import org.jdiameter.client.impl.helpers.XMLConfiguration;
+import org.jdiameter.server.impl.helpers.XMLConfiguration;
 import org.jdiameter.common.impl.validation.DictionaryImpl;
 
 import java.io.ByteArrayInputStream;
