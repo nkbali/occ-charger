@@ -28,7 +28,7 @@ public class PostInitialization {
 
     private final Resource resource;
 
-    private final XMLConfiguration xmlConfiguration;
+    //private final XMLConfiguration xmlConfiguration;
 
     private final InputStream inputStream;
 
@@ -41,7 +41,7 @@ public class PostInitialization {
         this.resourceLoader = resourceLoader;
         this.resource = this.resourceLoader.getResource("classpath:client-config.xml");
         this.inputStream = this.resource.getInputStream();
-        this.xmlConfiguration = new XMLConfiguration(this.resource.getFile().getAbsolutePath(), null, null);
+        //this.xmlConfiguration = new XMLConfiguration(this.resource.getFile().getAbsolutePath(), null, null);
     }
 
     @EventListener(ContextRefreshedEvent.class)
