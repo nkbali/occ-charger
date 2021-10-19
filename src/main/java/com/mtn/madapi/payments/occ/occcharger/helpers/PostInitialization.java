@@ -54,8 +54,8 @@ public class PostInitialization {
             CCAClient ccaClient = new CCAClient();
             InputStream inputStream = this.resource.getInputStream();
             XMLConfiguration xmlConfiguration = new XMLConfiguration(inputStream);
-            xmlConfiguration.
-            ccaClient.init(inputStream, "MADAPI");
+            //xmlConfiguration.
+            //ccaClient.init(inputStream, "MADAPI");
             return ccaClient;
         }
         catch (Exception ex){
