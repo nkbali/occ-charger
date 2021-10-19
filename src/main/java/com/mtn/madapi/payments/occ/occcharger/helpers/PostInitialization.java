@@ -68,7 +68,6 @@ public class PostInitialization {
 //            };
 //            ccaClient.init(hostInputStream, "MADAPI");
             ccaClient.init(inputStream, "MADAPI");
-            
             return ccaClient;
         }
         catch (Exception ex){
